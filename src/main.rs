@@ -6,15 +6,8 @@ extern crate getopts;
 extern crate yaml_rust;
 use std::io::prelude::*;
 use std::fs::File;
-mod ast;
 
-// mod lexer;
-// mod parser;
-mod codegen;
-mod vm;
-mod repl;
-#[cfg(test)]
-mod grammar_tests;
+pub mod vm;
 use yaml_rust::{Yaml};
 
 use yaml_rust::emitter::YamlEmitter;
@@ -52,19 +45,5 @@ fn execute_file(path: &String) {
     let mut file = File::open(path).unwrap();
     let mut content = String::new();
     file.read_to_string(&mut content).unwrap();
-    match peg_grammar::module(&content) {
-        Ok(statement_list) => {
-            let function = codegen::generate_ops(&statement_list);
-            /* match &function {
-                &vm::function::Function::VMFunction(ref f) => {
-                    println!("{}", f.scope);
-                },
-                _ => {},
-            } */
-            vm_instance.execute_function(&function, &[]);
-        },
-        Err(msg) => {
-            println!("{}", msg);
-        }
-    }
+    // TODO: execute VM.
 }
