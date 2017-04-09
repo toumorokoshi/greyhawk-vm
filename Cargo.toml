@@ -1,7 +1,9 @@
 [package]
 name = "greyhawk-vm"
-version = "0.0.1"
+version = "0.0.1-alpha"
 authors = ["Yusuke Tsutsumi <yusuke@tsutsumi.io>"]
+description = "a VM implementation for the greyhawk language"
+license = "MIT"
 
 [dependencies]
 getopts = "0.2"
