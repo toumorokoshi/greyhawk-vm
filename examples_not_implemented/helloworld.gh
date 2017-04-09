@@ -1,4 +1,0 @@
-import "system"
-
-bytes := system.stdin.read()
-system.stdout.write("Hello World!")

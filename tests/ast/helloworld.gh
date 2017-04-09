@@ -1,9 +1,0 @@
-- declare:
-    names:
-      - x
-    value:
-      string: Hello, world
-- function_call:
-    name: print
-    arguments:
-      - identifier: x

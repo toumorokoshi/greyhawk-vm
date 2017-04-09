@@ -1,4 +1,0 @@
-if true or false:
-	print("it works")
-else:
-	print("it doesn't work!")

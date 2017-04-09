@@ -1,3 +1,0 @@
-Int returnTen() {
-    return 10
-}

@@ -1,9 +1,0 @@
-Int testIfElse(x Bool) {
-    if x {
-       return 5
-    } else {
-       return 2
-    }
-}
-print(testIfElse(true))
-print(testIfElse(false))

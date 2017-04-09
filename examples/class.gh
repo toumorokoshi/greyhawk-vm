@@ -1,9 +1,0 @@
-class Foo:
-	attribute Int
-	attribute2 Int
-
-f := Foo(1, 2)
-
-print(f.attribute)
-print(f.attribute2)
-print(f.attribute2 + f.attribute)

@@ -1,3 +1,0 @@
-// we expect 14
-print((1 + 2) * 3 + 5)
-print(true or false)

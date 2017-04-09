@@ -1,6 +1,0 @@
-array := "barbaz"
-array[0] = 'c'
-print(array)
-
-if 'c' == 'c':
-	print("It's the same!")
