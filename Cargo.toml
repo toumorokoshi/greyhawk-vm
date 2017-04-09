@@ -1,13 +1,9 @@
 [package]
-name = "greyhawk"
+name = "greyhawk-vm"
 version = "0.0.1"
 authors = ["Yusuke Tsutsumi <yusuke@tsutsumi.io>"]
 
 [dependencies]
 getopts = "0.2"
 yaml-rust = "0.2.2"
-peg = "0.3"
 lazy_static = "0.1.*"
-
-# [dependencies.peg]
-# path = "../rust-peg"

@@ -1,6 +1,4 @@
 #![feature(plugin, box_syntax, box_patterns)]
-#![plugin(peg_syntax_ext)]
-peg_file! peg_grammar("grammar.rustpeg");
 
 #[macro_use]
 extern crate lazy_static;
@@ -29,14 +27,7 @@ fn main () {
         Err(f) => {panic!(f.to_string())},
     };
     match matches.free.len() {
-        l if l > 1 => {
-            match matches.free[0].as_ref() {
-                "ast" => parse(&matches.free[1]),
-                _ => println!("no such subcommand"),
-            }
-        },
         1 => execute_file(&matches.free[0]),
-        0 => {repl::start_repl();},
         _ => println!("Invalid Args"),
     }
 }
@@ -45,38 +36,6 @@ fn setup_opts() -> getopts::Options {
     let mut opts = getopts::Options::new();
     opts.optflag("h", "help", "print this help menu");
     return opts;
-}
-
-/*
-Currently, lexing and parsing using the
-native parser is deprecated in favor of using rust-peg.
-
-fn lexer(path: &String) {
-    println!("{}", path);
-    let lexer = lexer::Lexer::new();
-
-    let mut file = File::open(path).unwrap();
-    let mut content = String::new();
-    file.read_to_string(&mut content).unwrap();
-
-    let tokens = lexer.read(&content);
-    for token in &tokens {
-        println!("{}: {}", token.line_num, token.typ);
-    }
-}
-*/
-
-fn parse(path: &String) {
-    let mut file = File::open(path).unwrap();
-    let mut content = String::new();
-    file.read_to_string(&mut content).unwrap();
-    match peg_grammar::module(&content) {
-        Ok(statement_list) => {
-            let yaml = ast::yaml::to_yaml(&statement_list);
-            print_yaml(yaml);
-        },
-        Err(err) => {println!("{}", err)}
-    }
 }
 
 fn print_yaml(yaml: Yaml) {

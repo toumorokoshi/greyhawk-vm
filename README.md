@@ -1,18 +1,18 @@
-Greyhawk Language
-=================
+# Greyhawk VM (ghvm)
 
-Greyhawk is a highly opinionated programming language. Some of the defining features are:
+A VM implementation in Rust, written for the Greyhawk programming
+language.
 
-* runs on a virtual machine (e.g. Java)
-* immutability by default
-* tight restrictions around syntax
+However, the VM was also designed to execute any arbitrary language as
+well.
 
-If you're interested in the why, please read the DESIGN.md page.
+## VM Goals
 
-Building the Interpreter
-------------------------
+* performance
 
-The interpreter is written in Rust, specifically version 1.7.0. Install rust, and build the
-interpreter with:
+More info is in the DESIGN.md page.
 
-    cargo build
+## Using ghvm
+
+greyhawk-vm is available as both a rust library, and an executable to
+execute code.
