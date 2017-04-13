@@ -2,24 +2,13 @@ use std::collections::HashMap;
 use std::rc::Rc;
 use std::mem;
 
-pub mod module;
-pub mod function;
-pub mod ops;
-pub mod types;
-
-pub mod scope;
-pub mod builtins;
-
 // for some reason, wildcards (*) don't work.
-pub use self::module::Module;
-pub use self::function::Function;
-pub use self::function::VMFunction;
-pub use self::ops::Op;
-pub use self::scope::ScopeInstance;
-pub use self::scope::Scope;
-pub use self::scope::LocalObject;
-pub use self::builtins::print;
-pub use self::types::{get_type_ref_from_string, Type};
+use super::{Function, ModuleFile, Scope, Op};
+use super::function::VMFunction;
+use super::scope::ScopeInstance;
+use super::scope::LocalObject;
+use super::builtins::print;
+use super::types::{get_type_ref_from_string, Type};
 
 pub struct VM {
     pub modules: HashMap<&'static str, Module>,
@@ -147,7 +136,7 @@ impl VM {
         return return_value;
     }
 
-    pub fn execute_function(&mut self, func: &function::Function, args: &[Object]) -> Object {
+    pub fn execute_function(&mut self, func: &Function, args: &[Object]) -> Object {
         func.call(self, args)
     }
 }

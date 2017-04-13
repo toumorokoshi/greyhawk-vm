@@ -1,6 +1,6 @@
 [root]
-name = "greyhawk-vm"
-version = "0.0.1"
+name = "ghvm"
+version = "0.0.1-alpha"
 dependencies = [
  "getopts 0.2.14 (registry+https://github.com/rust-lang/crates.io-index)",
  "lazy_static 0.1.16 (registry+https://github.com/rust-lang/crates.io-index)",

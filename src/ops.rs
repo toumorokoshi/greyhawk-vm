@@ -3,6 +3,8 @@ use super::scope::LocalObject;
 use std::rc::Rc;
 use std::fmt;
 
+pub type OpList = Vec<Op>;
+
 pub enum Op {
     ArrayCreate{target: usize, length_source: usize},
     ArraySet{source: usize, target: usize, index_source: usize},
