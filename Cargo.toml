@@ -1,5 +1,5 @@
 [package]
-name = "greyhawk_vm"
+name = "gh_vm"
 version = "0.0.1-alpha"
 authors = ["Yusuke Tsutsumi <yusuke@tsutsumi.io>"]
 description = "a VM implementation for the greyhawk language"
