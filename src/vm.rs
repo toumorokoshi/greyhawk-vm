@@ -3,7 +3,7 @@ use std::rc::Rc;
 use std::mem;
 
 // for some reason, wildcards (*) don't work.
-use super::{Function, ModuleFile, Scope, Op};
+use super::{Function, Module, ModuleFile, Scope, Op};
 use super::function::VMFunction;
 use super::scope::ScopeInstance;
 use super::scope::LocalObject;

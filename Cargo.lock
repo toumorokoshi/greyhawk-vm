@@ -1,5 +1,5 @@
 [root]
-name = "ghvm"
+name = "gh_vm"
 version = "0.0.1-alpha"
 dependencies = [
  "getopts 0.2.14 (registry+https://github.com/rust-lang/crates.io-index)",
