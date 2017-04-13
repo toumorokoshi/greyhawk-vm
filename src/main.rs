@@ -16,6 +16,7 @@ pub use module::{Module, ModuleFile};
 pub use ops::{Op, OpList};
 pub use scope::{Scope, ScopeInstance};
 pub use vm::{VM, Object};
+pub use types::{NONE_TYPE};
 
 pub fn main() {
 }
