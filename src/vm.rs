@@ -14,12 +14,12 @@ impl VM {
         return VM {modules: HashMap::new()};
     }
 
-    pub fn execute_instructions(&mut self, reg_count: usize, ops: &[Op]) -> usize {
+    pub fn execute_instructions(&mut self, reg_count: usize, ops: &[Op]) -> i64 {
         // TODO: once rust supports allocating
         // variable length arrays on the stack, use that
         // instead. This is heap allocated which can be significantly
         // less performant.
-        let mut registers = vec![];
+        let mut registers = vec![0 as i64; reg_count];
         let return_value = 0 as usize;
         let mut i = 0;
         while i < ops.len() {
@@ -103,14 +103,14 @@ impl VM {
                 &Op::StringLoad{register, ref constant} => unsafe {
                     registers[register] = mem::transmute::<Rc<String>, i64>(constant.clone());
                 },
-                &Op::Return{register} => { return register; },
+                &Op::Return{register} => { return registers[register]; },
             };
             i +=1;
         }
         0
     }
 
-    pub fn execute_function(&mut self, func: &Function) -> usize {
+    pub fn execute_function(&mut self, func: &Function) -> i64 {
         self.execute_instructions(
             func.registers.len(), &func.ops
         )
