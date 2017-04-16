@@ -5,6 +5,11 @@ use std::fmt;
 
 pub type OpList = Vec<Op>;
 
+/*
+MOV <s:REG> <t:REG>, copy a value from s to t
+
+ */
+
 pub enum Op {
     ArrayCreate{target: usize, length_source: usize},
     ArraySet{source: usize, target: usize, index_source: usize},

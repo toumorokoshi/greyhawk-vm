@@ -1,3 +1,12 @@
+/// ghvm types can be categorized between two types: primitives and structs
+/// structs are constructed from primitives. Primitives are:
+/// * integer
+/// * float
+/// * bool
+/// number types will be split into sizings in the future.
+/// It would be nice if structs were similary to how they are in c,
+/// where fields that fit inside a word can be compacted.
+
 // use std::sync::AArc;
 use std::fmt;
 use std::sync::{Arc, Mutex};

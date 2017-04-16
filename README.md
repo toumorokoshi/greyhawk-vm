@@ -6,11 +6,9 @@ language.
 However, the VM was also designed to execute any arbitrary language as
 well.
 
-## VM Goals
+## About the VM philosophy
 
-* performance
-
-More info is in the DESIGN.md page.
+* see doc/goals.md and doc/design.md
 
 ## Using ghvm
 

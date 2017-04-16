@@ -11,12 +11,12 @@ mod ops;
 mod types;
 mod vm;
 
-pub use function::{Function};
+pub use function::{Function, VMFunction};
 pub use module::{Module, ModuleFile};
 pub use ops::{Op, OpList};
-pub use scope::{Scope, ScopeInstance};
+pub use scope::{
+    LocalObject,
+    Scope, ScopeInstance
+};
 pub use vm::{VM, Object};
-pub use types::{NONE_TYPE};
-
-pub fn main() {
-}
+pub use types::{NONE_TYPE, INT_TYPE};
