@@ -3,20 +3,10 @@ use std::rc::Rc;
 use std::mem;
 
 // for some reason, wildcards (*) don't work.
-use super::{Function, Module, ModuleFile, Scope, Op};
-use super::function::VMFunction;
-use super::scope::ScopeInstance;
-use super::scope::LocalObject;
-use super::builtins::print;
-use super::types::{get_type_ref_from_string, Type};
+use super::{Function, Module, Op};
 
 pub struct VM {
     pub modules: HashMap<&'static str, Module>,
-}
-
-pub struct Object {
-    pub value: i64,
-    pub typ: Type
 }
 
 impl VM {
@@ -24,10 +14,13 @@ impl VM {
         return VM {modules: HashMap::new()};
     }
 
-    pub fn execute_instructions(&mut self, scope_instance: &mut ScopeInstance, scope: &Scope, ops: &[Op]) -> usize {
+    pub fn execute_instructions(&mut self, reg_count: usize, ops: &[Op]) -> usize {
+        // TODO: once rust supports allocating
+        // variable length arrays on the stack, use that
+        // instead. This is heap allocated which can be significantly
+        // less performant.
+        let mut registers = vec![];
         let return_value = 0 as usize;
-        let mut registers = &mut scope_instance.registers;
-        let mut arrays = &mut scope_instance.arrays;
         let mut i = 0;
         while i < ops.len() {
             let ref op = ops[i];
@@ -35,22 +28,9 @@ impl VM {
                 &Op::Assign{source, target} => {
                     registers[target] = registers[source];
                 },
-                &Op::ArrayCreate{target, length_source} => unsafe {
-                    let length = mem::transmute::<i64, usize>(registers[length_source]);
-                    let index = arrays.len();
-                    arrays.push(vec![0; length]);
-                    registers[target] = index as i64;
-                },
-                &Op::ArraySet{source, target, index_source} => unsafe {
-                    let index = mem::transmute::<i64, usize>(registers[index_source]);
-                    let ref mut arr = arrays[registers[target] as usize];
-                    arr[index] = registers[source];
-                },
-                &Op::ArrayLoad{source, target, index_source} => unsafe {
-                    let index = mem::transmute::<i64, usize>(registers[index_source]);
-                    let ref arr = arrays[registers[source] as usize];
-                    registers[target] = arr[index];
-                },
+                &Op::ArrayCreate{target, length_source} => unsafe {},
+                &Op::ArraySet{source, target, index_source} => unsafe {},
+                &Op::ArrayLoad{source, target, index_source} => unsafe {},
                 &Op::BoolNot{source, target} => {
                     registers[target] = if registers[source] != 1 { 1 } else { 0 };
                 },
@@ -61,13 +41,7 @@ impl VM {
                         i = if_false - 1;
                     }
                 },
-                &Op::Call{ref func, ref args, target} => {
-                    let mut arg_objects = Vec::new();
-                    for arg in args {
-                        arg_objects.push(Object{value: registers[arg.index], typ: arg.typ.clone()});
-                    }
-                    registers[target] = self.execute_function(func, &arg_objects).value
-                },
+                // &Op::Call{ref func, ref args, target} => {};
                 &Op::IntAdd{lhs, rhs, target} => registers[target] = registers[lhs] + registers[rhs],
                 &Op::IntCmp{lhs, rhs, target} => registers[target] = if registers[lhs] == registers[rhs] {1} else {0},
                 &Op::IntSub{lhs, rhs, target} => registers[target] = registers[lhs] - registers[rhs],
@@ -133,10 +107,12 @@ impl VM {
             };
             i +=1;
         }
-        return return_value;
+        0
     }
 
-    pub fn execute_function(&mut self, func: &Function, args: &[Object]) -> Object {
-        func.call(self, args)
+    pub fn execute_function(&mut self, func: &Function) -> usize {
+        self.execute_instructions(
+            func.registers.len(), &func.ops
+        )
     }
 }

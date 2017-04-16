@@ -1,5 +1,4 @@
 use super::function;
-use super::scope::LocalObject;
 use std::rc::Rc;
 use std::fmt;
 
@@ -19,7 +18,7 @@ pub enum Op {
     // if the condition is true, continue down the registry.
     // if the condition is false, jump n instructions to the registry.
     Branch{condition: usize, if_false: usize},
-    Call{func: Rc<function::Function>, args: Vec<LocalObject>, target: usize},
+    // Call{func: Rc<function::Function>, args: Vec<LocalObject>, target: usize},
     FloatAdd{lhs: usize, rhs: usize, target: usize},
     FloatCmp{lhs: usize, rhs: usize, target: usize},
     FloatDiv{lhs: usize, rhs: usize, target: usize},
@@ -51,7 +50,8 @@ impl Op {
             &Op::ArrayLoad{source, target, index_source} => format!("{{{0}}} <= {{{1}}}[{{{2}}}]", target, source, index_source),
             &Op::BoolNot{source, target} => format!("{1} = !{0}", source, target),
             &Op::Branch{condition, if_false} => format!("branch to {0} if {1} is false", condition, if_false),
-            &Op::Call{ref func, args: _, target} => format!("{0} <= {1}()", target, func.name()),
+            // TODO: replace with the function call.
+            // &Op::Call{ref func, args: _, target} => format!("{0} <= {1}()", target, "FUNC"),
             &Op::Goto{position} => format!("goto {0}", position),
             &Op::FloatAdd{lhs, rhs, target} => format!("{2} <= {0} + {1} (float)", lhs, rhs, target),
             &Op::FloatCmp{lhs, rhs, target} => format!("{2} <= {0} == {1} (float)", lhs, rhs, target),

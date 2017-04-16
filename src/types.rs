@@ -6,57 +6,20 @@
 /// number types will be split into sizings in the future.
 /// It would be nice if structs were similary to how they are in c,
 /// where fields that fit inside a word can be compacted.
-
-// use std::sync::AArc;
 use std::fmt;
-use std::sync::{Arc, Mutex};
-use std::collections::HashMap;
 
-#[derive(Clone, PartialEq, Eq, Hash)]
-pub struct _Type {
-    pub name: String,
-    pub sub_types: Vec<Type>,
+pub enum Type {
+    Int,
+    Float,
+    Array(Box<Type>)
 }
 
-pub type Type = Arc<_Type>;
-
-impl fmt::Display for _Type {
+impl fmt::Display for Type {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "{}", self.name)
-    }
-}
-
-lazy_static! {
-    pub static ref BOOL_TYPE: Type = Type::new(_Type{name: String::from("Bool"), sub_types: Vec::new()});
-    pub static ref INT_TYPE: Type = Type::new(_Type{name: String::from("Int"), sub_types: Vec::new()});
-    pub static ref FLOAT_TYPE: Type = Type::new(_Type{name: String::from("Float"), sub_types: Vec::new()});
-    pub static ref NONE_TYPE: Type = Type::new(_Type{name: String::from("None"), sub_types: Vec::new()});
-    pub static ref STRING_TYPE: Type = Type::new(_Type{name: String::from("String"), sub_types: Vec::new()});
-    pub static ref ARRAY_CACHE: Mutex<HashMap<Type, Type>> = Mutex::new(HashMap::new());
-}
-
-pub fn get_array_type(array_type: Type) -> Type {
-    let mut array_cache = ARRAY_CACHE.lock().unwrap();
-    if let None = array_cache.get(&array_type) {
-        let new_type = Type::new(_Type{name: String::from("Array"), sub_types: vec![array_type.clone()]});
-        array_cache.insert(array_type.clone(), new_type.clone());
-        return new_type;
-    }
-    match array_cache.get(&array_type) {
-        Some(t) => t.clone(),
-        // this should never be reached, but
-        // I'm having trouble getting the borrow
-        // checker to acknowledge this.
-        None => array_type,
-    }
-}
-
-pub fn get_type_ref_from_string(symbol: &str) -> Type {
-    match symbol {
-        "String" => STRING_TYPE.clone(),
-        "Float" => FLOAT_TYPE.clone(),
-        "Int" => INT_TYPE.clone(),
-        "None" => NONE_TYPE.clone(),
-        _ => NONE_TYPE.clone()
+        match self {
+            &Type::Int => write!(f, "Int"),
+            &Type::Float => write!(f, "Float"),
+            &Type::Array(ref t) => write!(f, "Array<{0}>", t)
+        }
     }
 }
