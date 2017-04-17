@@ -4,6 +4,7 @@
 extern crate lazy_static;
 
 // mod builtins;
+mod builder;
 mod core;
 mod function;
 mod module;
@@ -12,6 +13,7 @@ mod ops;
 mod types;
 mod vm;
 
+pub use builder::{BuildObject, FunctionBuilder};
 pub use function::{Function};
 pub use module::{Module};
 pub use ops::{Op, OpList};

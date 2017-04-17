@@ -8,10 +8,12 @@
 /// where fields that fit inside a word can be compacted.
 use std::fmt;
 
+#[derive(Clone, PartialEq)]
 pub enum Type {
     Int,
     Float,
-    Array(Box<Type>)
+    Array(Box<Type>),
+    None
 }
 
 impl fmt::Display for Type {
@@ -19,7 +21,8 @@ impl fmt::Display for Type {
         match self {
             &Type::Int => write!(f, "Int"),
             &Type::Float => write!(f, "Float"),
-            &Type::Array(ref t) => write!(f, "Array<{0}>", t)
+            &Type::Array(ref t) => write!(f, "Array<{0}>", t),
+            &Type::None => write!(f, "None"),
         }
     }
 }
