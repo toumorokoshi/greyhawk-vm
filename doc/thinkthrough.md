@@ -19,3 +19,8 @@ tightly.
 # Arrays
 
 - array need a type to help pack and to allocate memory. How do we represent that in the VM?
+
+# Interop
+
+Module files from one language should be compatible with module files
+from others. This enable re-use.

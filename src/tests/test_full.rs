@@ -11,6 +11,7 @@ fn test_full() {
     function.ops.push(Op::IntLoad{register: 1, constant: 20});
     function.ops.push(Op::IntAdd{lhs: 1, rhs: 0, target: 1});
     function.ops.push(Op::Return{register: 1});
+    function.return_type = Type::Int;
     let result = vm.execute_function(&function);
     println!("{}", result);
     assert!(result == 30);

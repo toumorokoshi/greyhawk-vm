@@ -1,4 +1,4 @@
 /// core VM data structures
 
-pub type Register = usize;
+pub type Register = i64;
 pub type RegList = Vec<Register>;

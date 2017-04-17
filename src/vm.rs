@@ -1,6 +1,7 @@
 use std::collections::HashMap;
 use std::rc::Rc;
 use std::mem;
+use super::Register;
 
 // for some reason, wildcards (*) don't work.
 use super::{Function, Module, Op};
@@ -19,7 +20,7 @@ impl VM {
         // variable length arrays on the stack, use that
         // instead. This is heap allocated which can be significantly
         // less performant.
-        let mut registers = vec![0 as i64; reg_count];
+        let mut registers = vec![0 as Register; reg_count];
         let return_value = 0 as usize;
         let mut i = 0;
         while i < ops.len() {

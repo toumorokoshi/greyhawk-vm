@@ -7,11 +7,11 @@ pub struct Function {
 }
 
 impl Function {
-    pub fn new(return_type: Type) -> Function {
+    pub fn new() -> Function {
         return Function {
             registers: Vec::new(),
             ops: OpList::new(),
-            return_type: return_type
+            return_type: Type::None
         };
     }
 
