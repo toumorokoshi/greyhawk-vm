@@ -35,6 +35,9 @@ impl VM {
                 &Op::BoolNot{source, target} => {
                     registers[target] = if registers[source] != 1 { 1 } else { 0 };
                 },
+                &Op::BoolLoad{register, constant} => {
+                    registers[register] = if constant {1} else {0}
+                },
                 &Op::Branch{condition, if_false} => {
                     if registers[condition] == 0 {
                         // -1 to allow an increment at the end of the
