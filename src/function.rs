@@ -1,14 +1,22 @@
+use std::rc::Rc;
 use super::{Register, RegList, Type, OpList};
 
-pub struct Function {
+pub type NativeFunction = fn(&[Register]) -> Register;
+
+pub enum Function {
+    VM(Rc<Function>),
+    Native(Rc<NativeFunction>)
+}
+
+pub struct VMFunction {
     pub registers: Vec<Type>,
     pub return_type: Type,
     pub ops: OpList
 }
 
-impl Function {
-    pub fn new() -> Function {
-        return Function {
+impl VMFunction {
+    pub fn new() -> VMFunction {
+        return VMFunction {
             registers: Vec::new(),
             ops: OpList::new(),
             return_type: Type::None

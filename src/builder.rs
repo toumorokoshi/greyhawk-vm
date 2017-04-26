@@ -1,6 +1,6 @@
 /// builders are designed to assist with the construction of objects
 /// that are used n ghvm
-use super::{Function, Type, OpList, Op};
+use super::{VMFunction, Type, OpList, Op};
 
 pub struct BuildObject {
     pub typ: Type, // the type of object
@@ -50,8 +50,8 @@ impl FunctionBuilder {
         return local;
     }
 
-    pub fn build(&mut self) -> Function {
-        let mut function = Function::new();
+    pub fn build(&mut self) -> VMFunction {
+        let mut function = VMFunction::new();
         match self.return_type {
             Some(ref t) => {function.return_type = t.clone();},
             None => {function.return_type = Type::None}

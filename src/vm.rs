@@ -4,7 +4,7 @@ use std::mem;
 use super::Register;
 
 // for some reason, wildcards (*) don't work.
-use super::{Function, Module, Op};
+use super::{VMFunction, Module, Op};
 
 pub struct VM {
     pub modules: HashMap<&'static str, Module>,
@@ -114,7 +114,7 @@ impl VM {
         0
     }
 
-    pub fn execute_function(&mut self, func: &Function) -> i64 {
+    pub fn execute_function(&mut self, func: &VMFunction) -> Register {
         self.execute_instructions(
             func.registers.len(), &func.ops
         )

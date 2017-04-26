@@ -21,6 +21,7 @@ pub enum Op {
     // if the condition is false, jump n instructions to the registry.
     Branch{condition: usize, if_false: usize},
     // Call{func: Rc<function::Function>, args: Vec<LocalObject>, target: usize},
+    // FunctionLoad{func:
     FloatAdd{lhs: usize, rhs: usize, target: usize},
     FloatCmp{lhs: usize, rhs: usize, target: usize},
     FloatDiv{lhs: usize, rhs: usize, target: usize},

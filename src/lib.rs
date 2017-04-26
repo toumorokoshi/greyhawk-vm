@@ -14,7 +14,7 @@ mod types;
 mod vm;
 
 pub use builder::{BuildObject, FunctionBuilder};
-pub use function::{Function};
+pub use function::{VMFunction};
 pub use module::{Module};
 pub use ops::{Op, OpList};
 /* pub use scope::{
