@@ -1,11 +1,26 @@
 use std::rc::Rc;
-use super::{Register, RegList, Type, OpList};
+use super::{Register, RegList, Type, OpList, Value, ValueList, VM};
 
-pub type NativeFunction = fn(&[Register]) -> Register;
+pub type NativeFunction = fn(&mut VM, Vec<Value>) -> Value;
 
 pub enum Function {
-    VM(Rc<Function>),
+    VM(Rc<VMFunction>),
     Native(Rc<NativeFunction>)
+}
+
+impl Function {
+    pub fn execute(&self, vm: &mut VM, mut args: ValueList) -> Value {
+        match self {
+            &Function::VM(ref func) => {
+                let target_size = args.len() + func.registers.len();
+                args.resize(target_size, 0);
+                vm.execute_instructions(args, &func.ops)
+            },
+            &Function::Native(ref func) => {
+                func(vm, args)
+            }
+        }
+    }
 }
 
 pub struct VMFunction {

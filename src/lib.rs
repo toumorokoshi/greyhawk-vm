@@ -14,7 +14,7 @@ mod types;
 mod vm;
 
 pub use builder::{BuildObject, FunctionBuilder};
-pub use function::{VMFunction};
+pub use function::{Function, VMFunction, NativeFunction};
 pub use module::{Module};
 pub use ops::{Op, OpList};
 /* pub use scope::{
@@ -23,7 +23,7 @@ pub use ops::{Op, OpList};
 }; */
 pub use vm::{VM};
 pub use types::{Type};
-pub use core::{Register, RegList};
+pub use core::{Register, RegList, Value, ValueList};
 
 #[cfg(test)]
 mod tests;

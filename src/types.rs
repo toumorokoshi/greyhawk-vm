@@ -1,4 +1,4 @@
-/// ghvm types can be categorized between two types: primitives and structs
+// ghvm types can be categorized between two types: primitives and structs
 /// structs are constructed from primitives. Primitives are:
 /// * integer
 /// * float
@@ -14,6 +14,7 @@ pub enum Type {
     Int,
     Float,
     Array(Box<Type>),
+    Function,
     None
 }
 
@@ -23,6 +24,7 @@ impl fmt::Display for Type {
             &Type::Bool => write!(f, "Bool"),
             &Type::Int => write!(f, "Int"),
             &Type::Float => write!(f, "Float"),
+            &Type::Function => write!(f, "Function"),
             &Type::Array(ref t) => write!(f, "Array<{0}>", t),
             &Type::None => write!(f, "None"),
         }

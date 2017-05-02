@@ -1,13 +1,10 @@
 use std::collections::HashMap;
 use std::rc::Rc;
 use std::mem;
-use super::Register;
-
-// for some reason, wildcards (*) don't work.
-use super::{VMFunction, Module, Op};
+use super::{VMFunction, Module, Register, Op, Value, ValueList};
 
 pub struct VM {
-    pub modules: HashMap<&'static str, Module>,
+    pub modules: HashMap<String, Module>,
 }
 
 impl VM {
@@ -15,12 +12,11 @@ impl VM {
         return VM {modules: HashMap::new()};
     }
 
-    pub fn execute_instructions(&mut self, reg_count: usize, ops: &[Op]) -> i64 {
+    pub fn execute_instructions(&mut self, mut registers: ValueList, ops: &[Op]) -> i64 {
         // TODO: once rust supports allocating
         // variable length arrays on the stack, use that
         // instead. This is heap allocated which can be significantly
         // less performant.
-        let mut registers = vec![0 as Register; reg_count];
         let return_value = 0 as usize;
         let mut i = 0;
         while i < ops.len() {
@@ -45,7 +41,13 @@ impl VM {
                         i = if_false - 1;
                     }
                 },
-                // &Op::Call{ref func, ref args, target} => {};
+                &Op::Call{ref func, ref args, target} => {
+                    let mut args_to_pass = Vec::new();
+                    for index in args {
+                        args_to_pass.push(registers[*index]);
+                    }
+                    registers[target] = func.execute(self, args_to_pass);
+                },
                 &Op::IntAdd{lhs, rhs, target} => registers[target] = registers[lhs] + registers[rhs],
                 &Op::IntCmp{lhs, rhs, target} => registers[target] = if registers[lhs] == registers[rhs] {1} else {0},
                 &Op::IntSub{lhs, rhs, target} => registers[target] = registers[lhs] - registers[rhs],
@@ -114,9 +116,7 @@ impl VM {
         0
     }
 
-    pub fn execute_function(&mut self, func: &VMFunction) -> Register {
-        self.execute_instructions(
-            func.registers.len(), &func.ops
-        )
-    }
+    /* pub fn execute_function(&mut self, args: ValueList, func: &Function) -> Register {
+        func.execute(self, args)
+    } */
 }
