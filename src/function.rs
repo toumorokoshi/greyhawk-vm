@@ -3,6 +3,7 @@ use super::{Register, RegList, Type, OpList, Value, ValueList, VM};
 
 pub type NativeFunction = fn(&mut VM, Vec<Value>) -> Value;
 
+#[derive(Clone)]
 pub enum Function {
     VM(Rc<VMFunction>),
     Native(Rc<NativeFunction>)
@@ -11,11 +12,7 @@ pub enum Function {
 impl Function {
     pub fn execute(&self, vm: &mut VM, mut args: ValueList) -> Value {
         match self {
-            &Function::VM(ref func) => {
-                let target_size = args.len() + func.registers.len();
-                args.resize(target_size, 0);
-                vm.execute_instructions(args, &func.ops)
-            },
+            &Function::VM(ref func) => func.execute(vm, args),
             &Function::Native(ref func) => {
                 func(vm, args)
             }
@@ -42,5 +39,11 @@ impl VMFunction {
         for ref op in &self.ops {
             println!("  {0}", op);
         }
+    }
+
+    pub fn execute(&self, vm: &mut VM, mut args: ValueList) -> Value {
+        let target_size = args.len() + self.registers.len();
+        args.resize(target_size, 0);
+        vm.execute_instructions(args, &self.ops)
     }
 }

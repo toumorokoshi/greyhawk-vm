@@ -20,7 +20,7 @@ pub enum Op {
     // if the condition is true, continue down the registry.
     // if the condition is false, jump n instructions to the registry.
     Branch{condition: usize, if_false: usize},
-    Call{func: Rc<Function>, args: Vec<usize>, target: usize},
+    Call{func: Function, args: Vec<usize>, target: usize},
     FloatAdd{lhs: usize, rhs: usize, target: usize},
     FloatCmp{lhs: usize, rhs: usize, target: usize},
     FloatDiv{lhs: usize, rhs: usize, target: usize},
