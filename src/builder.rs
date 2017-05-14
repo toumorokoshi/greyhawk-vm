@@ -1,7 +1,9 @@
 /// builders are designed to assist with the construction of objects
 /// that are used n ghvm
 use super::{VMFunction, Type, OpList, Op};
+use std::collections::HashMap;
 
+#[derive(Clone)]
 pub struct BuildObject {
     pub typ: Type, // the type of object
     pub register: usize // the register where the object lives
@@ -11,6 +13,7 @@ pub struct FunctionBuilder {
     pub registers: Vec<Type>,
     pub ops: OpList,
     pub return_type: Option<Type>,
+    pub locals: HashMap<String, BuildObject>
 }
 
 impl FunctionBuilder {
@@ -18,8 +21,20 @@ impl FunctionBuilder {
         return FunctionBuilder{
             registers: Vec::new(),
             ops: OpList::new(),
-            return_type: None
+            return_type: None,
+            locals: HashMap::new()
         }
+    }
+
+    /// get the local var with name if it exists, or create and return the BuildObject
+    /// otherwise.
+    pub fn get_insert_local_var(&mut self, typ: &Type, name: &String) -> BuildObject {
+        if let Some(value) = self.locals.get(name) {
+            return value.clone();
+        }
+        let local = self.allocate_local(typ);
+        self.locals.insert(name.clone(), local.clone());
+        return local;
     }
 
     pub fn allocate_local(&mut self, typ: &Type) -> BuildObject {
