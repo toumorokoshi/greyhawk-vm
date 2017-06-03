@@ -52,7 +52,7 @@ impl Op {
             &Op::ArrayLoad{source, target, index_source} => format!("{{{0}}} <= {{{1}}}[{{{2}}}]", target, source, index_source),
             &Op::BoolNot{source, target} => format!("{1} = !{0}", source, target),
             &Op::BoolLoad{register, constant} => format!("{1} = {0}", register, constant),
-            &Op::Branch{condition, if_false} => format!("branch to {0} if {1} is false", condition, if_false),
+            &Op::Branch{condition, if_false} => format!("branch to {1} if {0} is false", condition, if_false),
             &Op::Call{ref func, args: _, target} => format!("{0} <= <some_func>()", target),
             &Op::Goto{position} => format!("goto {0}", position),
             &Op::FloatAdd{lhs, rhs, target} => format!("{2} <= {0} + {1} (float)", lhs, rhs, target),

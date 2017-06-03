@@ -36,8 +36,10 @@ impl VMFunction {
     }
 
     pub fn print_ops(&self) {
+        let mut i = 0;
         for ref op in &self.ops {
-            println!("  {0}", op);
+            println!("{}: {}", i, op);
+            i += 1;
         }
     }
 
