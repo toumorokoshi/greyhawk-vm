@@ -37,6 +37,13 @@ impl FunctionBuilder {
         return local;
     }
 
+    pub fn get_var(&mut self, name: &String) -> Option<BuildObject> {
+        match self.locals.get(name) {
+            Some(o) => Some(o.clone()),
+            None => None
+        }
+    }
+
     pub fn allocate_local(&mut self, typ: &Type) -> BuildObject {
         self.registers.push(typ.clone());
         return BuildObject {
