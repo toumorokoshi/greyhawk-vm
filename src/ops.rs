@@ -19,7 +19,8 @@ pub enum Op {
     BoolLoad{register: usize, constant: bool},
     // if the condition is true, continue down the registry.
     // if the condition is false, jump n instructions to the registry.
-    Branch{condition: usize, if_false: usize},
+    BranchTrue{condition: usize, if_true: usize},
+    BranchFalse{condition: usize, if_false: usize},
     Call{func: Function, args: Vec<usize>, target: usize},
     FloatAdd{lhs: usize, rhs: usize, target: usize},
     FloatCmp{lhs: usize, rhs: usize, target: usize},
@@ -52,7 +53,8 @@ impl Op {
             &Op::ArrayLoad{source, target, index_source} => format!("{{{0}}} <= {{{1}}}[{{{2}}}]", target, source, index_source),
             &Op::BoolNot{source, target} => format!("{1} = !{0}", source, target),
             &Op::BoolLoad{register, constant} => format!("{1} = {0}", register, constant),
-            &Op::Branch{condition, if_false} => format!("branch to {1} if {0} is false", condition, if_false),
+            &Op::BranchTrue{condition, if_true} => format!("branch to {1} if {0} is true", condition, if_true),
+            &Op::BranchFalse{condition, if_false} => format!("branch to {1} if {0} is false", condition, if_false),
             &Op::Call{ref func, args: _, target} => format!("{0} <= <some_func>()", target),
             &Op::Goto{position} => format!("goto {0}", position),
             &Op::FloatAdd{lhs, rhs, target} => format!("{2} <= {0} + {1} (float)", lhs, rhs, target),
